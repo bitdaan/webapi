@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { AuthenticationError } from 'apollo-server-core';
+import { AuthToken } from '../types/auth-token.type';
 
 @Injectable()
 export class AuthService {
@@ -10,7 +11,7 @@ export class AuthService {
     private configService: ConfigService,
   ) {}
 
-  getAuthToken(token: string) {
+  getAuthToken(token: string): AuthToken {
     if (token === (this.configService.get('TOKEN') as string)) {
       const jwt = this.jwtService.sign({
         token,
@@ -24,7 +25,7 @@ export class AuthService {
     }
   }
 
-  async verifyAuthToken(token: string) {
+  async verifyAuthToken(token: string): Promise<Boolean> {
     if (token === (this.configService.get('TOKEN') as string)) {
       return true;
     } else {

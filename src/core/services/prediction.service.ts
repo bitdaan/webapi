@@ -12,7 +12,7 @@ export class PredictionService {
     private predictionRepository: Repository<PredictionRecord>,
   ) {}
 
-  getPeak() {
+  getPeak(): Promise<PredictionRecord> {
     return this.predictionRepository.findOne({
       where: {},
       order: {
@@ -21,15 +21,17 @@ export class PredictionService {
     });
   }
 
-  async getHistoryList(getPredictionHistoryInput: GetPredictionHistoryInput) {
+  async getHistoryList(
+    getPredictionHistoryInput: GetPredictionHistoryInput,
+  ): Promise<PredictionRecord[]> {
     const { from, to } = getPredictionHistoryInput;
     return this.predictionRepository.find({
       where: {
         date: Between(from, to),
       },
-      order : {
-        date : "DESC"
-      }
+      order: {
+        date: 'DESC',
+      },
     });
   }
 
