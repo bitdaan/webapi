@@ -38,6 +38,7 @@ import { AuthModule } from './auth/auth.module';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: true,
+      formatError : (e)=>({ message: e.message,statusCode : e.extensions.code })
     }),
     CoreModule,
     AuthModule,
